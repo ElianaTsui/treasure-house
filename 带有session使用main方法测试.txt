@@ -1,0 +1,18 @@
+   try{
+            HibernateService hibernateIntfSQLServer = null;
+            hibernateIntfSQLServer = StartUpUtils.startdb("D:/code/GCAPP/src/main/webapp");
+            CalucateContractAmountService.init();
+            hibernateIntfSQLServer.executeWithCallback(new HibernateCallback() {
+                @SuppressWarnings("unchecked")
+                @Override
+                public Object sessionReady(Session session) {
+                    BusinessService service = new BusinessService();
+                    service.sendEmailToDivManager(session);
+                    return null;
+                }
+            });
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        DBAccessSQLServer.destroy();
